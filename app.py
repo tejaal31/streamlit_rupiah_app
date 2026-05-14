@@ -224,7 +224,6 @@ st.set_page_config(
     layout="wide"
 )
 
-
 # ============================================================
 # Custom CSS untuk Responsivitas
 # ============================================================
@@ -242,6 +241,7 @@ st.markdown(
         max-width: 1200px;
     }
 
+    /* Sidebar */
     section[data-testid="stSidebar"] {
         background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
     }
@@ -254,6 +254,7 @@ st.markdown(
         font-size: 15px;
     }
 
+    /* Hero Card */
     .hero-card {
         background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 100%);
         padding: 36px 40px;
@@ -293,6 +294,7 @@ st.markdown(
         font-weight: 600;
     }
 
+    /* Custom Card */
     .custom-card {
         background: rgba(255,255,255,0.92);
         border: 1px solid rgba(226,232,240,0.9);
@@ -315,6 +317,7 @@ st.markdown(
         margin-bottom: 18px;
     }
 
+    /* File Uploader */
     div[data-testid="stFileUploader"] {
         background: white;
         border: 2px dashed #38bdf8;
@@ -327,6 +330,7 @@ st.markdown(
         color: #0f172a;
     }
 
+    /* Metric */
     div[data-testid="stMetric"] {
         background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         border: 1px solid #e2e8f0;
@@ -367,7 +371,7 @@ st.markdown(
 
     img {
         border-radius: 18px;
-        max-width: 100%;
+        max-width: 100%; /* Pastikan gambar responsif */
     }
 
     hr {
@@ -375,6 +379,7 @@ st.markdown(
         margin-bottom: 2rem;
     }
 
+    /* Responsif untuk layar kecil */
     @media (max-width: 768px) {
         .hero-title {
             font-size: 30px;
@@ -383,11 +388,34 @@ st.markdown(
         .hero-card {
             padding: 28px 24px;
         }
+
+        .block-container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .custom-card {
+            padding: 18px;
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+
+        .badge-row {
+            gap: 8px;
+        }
+
+        div[data-testid="stFileUploader"] {
+            padding: 16px;
+        }
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 # ============================================================
