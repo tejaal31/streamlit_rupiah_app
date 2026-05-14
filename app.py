@@ -405,14 +405,14 @@ with st.sidebar:
     st.markdown("## 💵 Informasi Model")
     st.markdown("---")
 
-    # Menampilkan Ukuran Input dan Jumlah Kelas dengan HTML untuk kontras yang baik
+    # Menampilkan Ukuran Input dan Jumlah Kelas dengan background kontras
     st.markdown(
         f"""
         <div style="margin-top: 16px;">
             <div style="color: white; font-size: 18px; font-weight: 800; margin-bottom: 8px;">
                 Ukuran Input
             </div>
-            <div style="background-color: #f1f5f9; color: #0f172a; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600;">
+            <div style="background-color: #0f172a; color: #f8fafc; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600;">
                 {IMG_SIZE} x {IMG_SIZE}
             </div>
         </div>
@@ -420,7 +420,7 @@ with st.sidebar:
             <div style="color: white; font-size: 18px; font-weight: 800; margin-bottom: 8px;">
                 Jumlah Kelas
             </div>
-            <div style="background-color: #f1f5f9; color: #0f172a; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600;">
+            <div style="background-color: #0f172a; color: #f8fafc; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600;">
                 {len(class_names)} kelas
             </div>
         </div>
