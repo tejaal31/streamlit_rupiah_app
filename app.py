@@ -527,6 +527,8 @@ st.markdown(
         <div class="hero-subtitle">
             Aplikasi ini dirancang untuk mengenali 7 nominal uang kertas Rupiah emisi terbaru (2022) menggunakan arsitektur
             <strong>Convolutional Neural Network (CNN)</strong>. Hasil prediksi ditampilkan lengkap dengan tingkat kepercayaan dan tiga kemungkinan tertinggi.
+        <br><br>
+            Aplikasi ini juga dilengkapi dengan fitur <strong>Text-to-Speech (gTTS)</strong> yang memungkinkan pengguna dengan keterbatasan penglihatan (tuna netra) untuk mendengarkan nilai nominal uang yang dikenali melalui suara.
         </div>
         <div class="badge-row">
             <div class="badge">📷 Input Gambar</div>
@@ -539,22 +541,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ============================================================
-# Deskripsi Proyek
-# ============================================================
-
-st.markdown(
-    """
-    ## Deskripsi Proyek
-    Aplikasi ini dirancang untuk mengenali 7 nominal uang kertas Rupiah emisi terbaru (2022) menggunakan arsitektur **Convolutional Neural Network (CNN)**.
-
-    **Fitur Utama:**
-    * **Dataset**: Automasi *download* dari KaggleHub (Uang Emisi 2022 Baru).
-    * **Model**: Arsitektur CNN kustom (Manual) tanpa *transfer learning*.
-    * **Aksesibilitas**: Integrasi *Text-to-Speech* (gTTS) untuk membantu tuna netra mengetahui nominal uang melalui suara.
-    """,
-    unsafe_allow_html=True
-)
 
 # ============================================================
 # Upload Section
