@@ -384,6 +384,83 @@ st.markdown(
             padding: 28px 24px;
         }
     }
+    
+    .voice-box {
+        background: #dbeafe !important;
+        border: 1px solid #bfdbfe !important;
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 12px;
+        margin-bottom: 18px;
+    }
+    
+    .voice-card {
+        background: #ffffff !important;
+        border: 1px solid #dbeafe !important;
+        border-radius: 14px;
+        padding: 16px 18px;
+        margin-bottom: 12px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+    }
+    
+    .voice-number {
+        background: #2563eb !important;
+        color: #ffffff !important;
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+    
+    .voice-content {
+        flex: 1;
+    }
+    
+    .voice-title {
+        color: #0f172a !important;
+        font-size: 17px;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+    
+    .voice-text {
+        color: #334155 !important;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    
+    .voice-highlight {
+        color: #0f766e !important;
+        font-weight: 800;
+    }
+    
+    .voice-confidence {
+        color: #2563eb !important;
+        font-weight: 800;
+    }
+    
+    @media (max-width: 768px) {
+        .voice-card {
+            padding: 14px;
+            gap: 10px;
+        }
+    
+        .voice-title {
+            font-size: 15px;
+        }
+    
+        .voice-text {
+            font-size: 14px;
+        }
+    }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -494,7 +571,8 @@ uploaded_files = st.file_uploader(
 
 if uploaded_files:
     hasil_prediksi = []
-    kalimat_suara = "Hasil prediksi nominal uang adalah. "
+    kalimat_suara_items = []
+    output_suara_items = []
 
     st.markdown("## 📌 Hasil Prediksi")
 
@@ -513,11 +591,20 @@ if uploaded_files:
             "Confidence": f"{confidence:.2f}%"
         })
 
-        kalimat_suara += (
-            f"Gambar ke {angka_ke_teks(nomor)}. "
-            f"Prediksi nominal uang adalah {nominal_ke_teks(label_prediksi)}. "
-            f"Tingkat kepercayaan {confidence_ke_teks(confidence)}. "
+        teks_suara_item = (
+        f"Gambar ke {angka_ke_teks(nomor)}. "
+        f"Prediksi nominal uang adalah {nominal_ke_teks(label_prediksi)}. "
+        f"Tingkat kepercayaan {confidence_ke_teks(confidence)}. "
         )
+        
+        kalimat_suara_items.append(teks_suara_item)
+        
+        output_suara_items.append({
+            "nomor": nomor,
+            "prediksi": label_display,
+            "confidence": f"{confidence:.2f}%",
+            "teks": teks_suara_item
+        })
 
         st.markdown(
             f"""
@@ -597,8 +684,36 @@ if uploaded_files:
     # ========================================================
     # Output Suara
     # ========================================================
-    
+
     st.markdown("## 🔊 Output Suara")
-    st.info(kalimat_suara)
     
-    render_speech_button(kalimat_suara)  
+    kalimat_suara = "Hasil prediksi nominal uang adalah. " + " ".join(kalimat_suara_items)
+    
+    voice_cards_html = ""
+    
+    for item in output_suara_items:
+        voice_cards_html += f"""
+        <div class="voice-card">
+            <div class="voice-number">{item["nomor"]}</div>
+            <div class="voice-content">
+                <div class="voice-title">Gambar {item["nomor"]}</div>
+                <div class="voice-text">
+                    Prediksi nominal uang adalah
+                    <span class="voice-highlight">{item["prediksi"]}</span>
+                    dengan tingkat kepercayaan
+                    <span class="voice-confidence">{item["confidence"]}</span>.
+                </div>
+            </div>
+        </div>
+        """
+    
+    st.markdown(
+        f"""
+        <div class="voice-box">
+            {voice_cards_html}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    render_speech_button(kalimat_suara)
