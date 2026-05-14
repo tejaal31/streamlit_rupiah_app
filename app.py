@@ -38,7 +38,6 @@ def label_to_nominal_int(label):
         10000,
         20000,
         50000,
-        75000,
         100000
     ]
 
@@ -93,7 +92,6 @@ def nominal_ke_teks(label):
         10000: "sepuluh ribu rupiah",
         20000: "dua puluh ribu rupiah",
         50000: "lima puluh ribu rupiah",
-        75000: "tujuh puluh lima ribu rupiah",
         100000: "seratus ribu rupiah"
     }
 
@@ -201,13 +199,16 @@ def render_speech_button(text):
     components.html(
         f"""
         <button onclick="speakResult()" style="
-            background-color:#0E1117;
-            color:white;
-            border:none;
-            border-radius:8px;
-            padding:10px 16px;
-            font-size:15px;
-            cursor:pointer;">
+            background: linear-gradient(135deg, #0f766e 0%, #0284c7 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(2, 132, 199, 0.22);
+        ">
             🔊 Putar Suara Hasil Prediksi
         </button>
 
@@ -256,7 +257,7 @@ def render_speech_button(text):
         }};
         </script>
         """,
-        height=80
+        height=85
     )
 
 
@@ -270,35 +271,263 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Rancang Bangun Aplikasi Pengenalan Nominal Uang Kertas Rupiah Berbasis CNN")
 
-st.write(
-    "Aplikasi ini menggunakan model Convolutional Neural Network untuk mengenali "
-    "nominal uang kertas Rupiah dari gambar yang diunggah."
+# ============================================================
+# Custom CSS
+# ============================================================
+
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: linear-gradient(135deg, #f6f8fb 0%, #eef4ff 100%);
+    }
+
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        max-width: 1200px;
+    }
+
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    }
+
+    section[data-testid="stSidebar"] * {
+        color: #f8fafc !important;
+    }
+
+    section[data-testid="stSidebar"] .stMarkdown {
+        font-size: 15px;
+    }
+
+    .hero-card {
+        background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 100%);
+        padding: 36px 40px;
+        border-radius: 26px;
+        color: white;
+        box-shadow: 0 18px 45px rgba(15, 118, 110, 0.22);
+        margin-bottom: 28px;
+    }
+
+    .hero-title {
+        font-size: 42px;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 14px;
+    }
+
+    .hero-subtitle {
+        font-size: 17px;
+        line-height: 1.7;
+        opacity: 0.95;
+        max-width: 850px;
+    }
+
+    .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .badge {
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.28);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .custom-card {
+        background: rgba(255,255,255,0.92);
+        border: 1px solid rgba(226,232,240,0.9);
+        border-radius: 22px;
+        padding: 24px;
+        box-shadow: 0 10px 32px rgba(15, 23, 42, 0.08);
+        margin-bottom: 22px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 8px;
+    }
+
+    .section-desc {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    div[data-testid="stFileUploader"] {
+        background: white;
+        border: 2px dashed #38bdf8;
+        border-radius: 20px;
+        padding: 18px;
+    }
+
+    div[data-testid="stFileUploader"] label {
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    div[data-testid="stMetric"] {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid #e2e8f0;
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+    }
+
+    div[data-testid="stMetricLabel"] {
+        color: #64748b;
+        font-weight: 700;
+    }
+
+    div[data-testid="stMetricValue"] {
+        color: #0f766e;
+        font-weight: 900;
+    }
+
+    .stDownloadButton button {
+        background: linear-gradient(135deg, #0f766e 0%, #0284c7 100%);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        padding: 12px 20px;
+        font-weight: 700;
+        box-shadow: 0 10px 24px rgba(2, 132, 199, 0.22);
+    }
+
+    .stDownloadButton button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(2, 132, 199, 0.28);
+    }
+
+    div[data-testid="stAlert"] {
+        border-radius: 18px;
+        border: none;
+    }
+
+    img {
+        border-radius: 18px;
+    }
+
+    hr {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 30px;
+        }
+
+        .hero-card {
+            padding: 28px 24px;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
+
+
+# ============================================================
+# Load Model
+# ============================================================
 
 model, class_names, IMG_SIZE = load_model_and_labels()
 
+
+# ============================================================
+# Sidebar
+# ============================================================
+
 with st.sidebar:
-    st.header("Informasi Model")
-    st.write("Ukuran Input:", f"{IMG_SIZE} x {IMG_SIZE}")
-    st.write("Jumlah Kelas:", len(class_names))
+    st.markdown("## 💵 Informasi Model")
+    st.markdown("---")
 
-    st.write("Daftar Kelas:")
+    st.markdown(f"""
+    **Ukuran Input**  
+    `{IMG_SIZE} x {IMG_SIZE}`
+
+    **Jumlah Kelas**  
+    `{len(class_names)} kelas`
+    """)
+
+    st.markdown("### Daftar Nominal")
+
     for class_name in class_names:
-        st.write("-", format_rupiah(class_name))
+        st.markdown(f"- {format_rupiah(class_name)}")
+
+    st.markdown("---")
+    st.caption("Aplikasi CNN untuk klasifikasi nominal uang kertas Rupiah.")
 
 
-uploaded_files = st.file_uploader(
-    "Upload satu atau beberapa gambar uang Rupiah",
-    type=["jpg", "jpeg", "png", "webp", "bmp"],
-    accept_multiple_files=True
+# ============================================================
+# Hero Section
+# ============================================================
+
+st.markdown(
+    """
+    <div class="hero-card">
+        <div class="hero-title">
+            Pengenalan Nominal Uang Kertas Rupiah Berbasis CNN
+        </div>
+        <div class="hero-subtitle">
+            Upload gambar uang kertas Rupiah, lalu sistem akan mengenali nominalnya
+            menggunakan model Convolutional Neural Network. Hasil prediksi ditampilkan
+            lengkap dengan tingkat kepercayaan dan tiga kemungkinan tertinggi.
+        </div>
+        <div class="badge-row">
+            <div class="badge">📷 Input Gambar</div>
+            <div class="badge">🧠 CNN Model</div>
+            <div class="badge">📊 Top 3 Prediksi</div>
+            <div class="badge">🔊 Output Suara</div>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
+
+# ============================================================
+# Upload Section
+# ============================================================
+
+st.markdown(
+    """
+    <div class="custom-card">
+        <div class="section-title">Upload Gambar Uang Rupiah</div>
+        <div class="section-desc">
+            Pilih satu atau beberapa gambar uang kertas Rupiah dengan format JPG, PNG, WEBP, atau BMP.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+uploaded_files = st.file_uploader(
+    "Masukkan gambar untuk diprediksi",
+    type=["jpg", "jpeg", "png", "webp", "bmp"],
+    accept_multiple_files=True,
+    label_visibility="collapsed"
+)
+
+
+# ============================================================
+# Proses Prediksi
+# ============================================================
 
 if uploaded_files:
     hasil_prediksi = []
     kalimat_suara = "Hasil prediksi nominal uang adalah. "
+
+    st.markdown("## 📌 Hasil Prediksi")
 
     for nomor, uploaded_file in enumerate(uploaded_files, start=1):
         original_img, resized_img, img_final = preprocess_image(uploaded_file, IMG_SIZE)
@@ -321,38 +550,61 @@ if uploaded_files:
             f"Tingkat kepercayaan {confidence_ke_teks(confidence)}. "
         )
 
-        st.divider()
-        st.subheader(f"Hasil Prediksi Gambar {nomor}")
+        st.markdown(
+            f"""
+            <div class="custom-card">
+                <div class="section-title">Gambar {nomor}: {uploaded_file.name}</div>
+                <div class="section-desc">
+                    Berikut hasil klasifikasi nominal uang berdasarkan gambar yang diunggah.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-        col1, col2, col3 = st.columns([1.2, 1.2, 1])
+        col1, col2 = st.columns([1.2, 1])
 
         with col1:
-            st.image(
-                original_img,
-                caption="Gambar Asli",
-                use_container_width=True
-            )
+            img_col1, img_col2 = st.columns(2)
+
+            with img_col1:
+                st.image(
+                    original_img,
+                    caption="Gambar Asli",
+                    use_container_width=True
+                )
+
+            with img_col2:
+                st.image(
+                    resized_img,
+                    caption=f"Resize {IMG_SIZE} x {IMG_SIZE}",
+                    use_container_width=True
+                )
 
         with col2:
-            st.image(
-                resized_img,
-                caption=f"Gambar Setelah Resize {IMG_SIZE} x {IMG_SIZE}",
-                use_container_width=True
-            )
+            metric_col1, metric_col2 = st.columns(2)
 
-        with col3:
-            st.metric("Prediksi Nominal", label_display)
-            st.metric("Confidence", f"{confidence:.2f}%")
+            with metric_col1:
+                st.metric("Prediksi", label_display)
 
-            st.write("Top 3 Prediksi")
+            with metric_col2:
+                st.metric("Confidence", f"{confidence:.2f}%")
+
+            st.markdown("#### Top 3 Prediksi")
             st.dataframe(
                 top3,
                 use_container_width=True,
                 hide_index=True
             )
 
-    st.divider()
-    st.subheader("Ringkasan Hasil Prediksi")
+        st.divider()
+
+
+    # ========================================================
+    # Ringkasan Hasil
+    # ========================================================
+
+    st.markdown("## 📋 Ringkasan Hasil Prediksi")
 
     df_hasil = pd.DataFrame(hasil_prediksi)
 
@@ -366,17 +618,21 @@ if uploaded_files:
     df_hasil.to_csv(csv_buffer, index=False)
 
     st.download_button(
-        label="Download Hasil Prediksi CSV",
+        label="⬇️ Download Hasil Prediksi CSV",
         data=csv_buffer.getvalue(),
         file_name="hasil_prediksi_uang_rupiah.csv",
         mime="text/csv"
     )
 
-    st.subheader("Output Suara")
 
+    # ========================================================
+    # Output Suara
+    # ========================================================
+
+    st.markdown("## 🔊 Output Suara")
     st.info(kalimat_suara)
 
     render_speech_button(kalimat_suara)
 
 else:
-    st.info("Silakan upload gambar uang Rupiah untuk melakukan prediksi.")
+    st.info("Silakan upload gambar uang Rupiah terlebih dahulu untuk melakukan prediksi.")
