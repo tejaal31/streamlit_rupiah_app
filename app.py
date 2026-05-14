@@ -405,31 +405,16 @@ with st.sidebar:
     st.markdown("## 💵 Informasi Model")
     st.markdown("---")
 
-    # Menampilkan informasi model dengan styling custom
-    st.markdown(
-        f"""
-        <div style="margin-top: 16px;">
-            <div style="color: white; font-size: 18px; font-weight: 800; margin-bottom: 8px;">
-                Ukuran Input
-            </div>
-            <div style="background-color: #f1f5f9; color: #0f172a; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600;">
-                {IMG_SIZE} x {IMG_SIZE}
-            </div>
-        </div>
-        <div style="margin-top: 16px;">
-            <div style="color: white; font-size: 18px; font-weight: 800; margin-bottom: 8px;">
-                Jumlah Kelas
-            </div>
-            <div style="background-color: #f1f5f9; color: #0f172a; padding: 8px 16px; border-radius: 8px; font-size: 16px; font-weight: 600;">
-                {len(class_names)} kelas
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown(f"""
+    **Ukuran Input**  
+    `{IMG_SIZE} x {IMG_SIZE}`
 
-    # Daftar nominal uang
+    **Jumlah Kelas**  
+    `{len(class_names)} kelas`
+    """)
+
     st.markdown("### Daftar Nominal")
+
     for class_name in class_names:
         st.markdown(f"- {format_rupiah(class_name)}")
 
