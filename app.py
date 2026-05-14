@@ -583,4 +583,7 @@ if uploaded_files:
     # Output Suara
     # ========================================================
 
-    st.markdown("## 🔊 Output Su
+    st.markdown("## 🔊 Output Suara")
+    st.info(kalimat_suara)
+
+    render_speech_button(kalimat_suara)
