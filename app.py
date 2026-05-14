@@ -433,13 +433,22 @@ with st.sidebar:
     st.markdown("## 💵 Informasi Model")
     st.markdown("---")
 
-    st.markdown(f"""
-    **Ukuran Input**  
-    `{IMG_SIZE} x {IMG_SIZE}`
+    st.markdown(
+        f"""
+        <div class="info-model-box">
+            <div class="info-model-item">
+                <div class="info-model-label">Ukuran Input</div>
+                <div class="info-model-value">{IMG_SIZE} x {IMG_SIZE}</div>
+            </div>
 
-    **Jumlah Kelas**  
-    `{len(class_names)} kelas`
-    """)
+            <div class="info-model-item">
+                <div class="info-model-label">Jumlah Kelas</div>
+                <div class="info-model-value">{len(class_names)} kelas</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.markdown("### Daftar Nominal")
 
