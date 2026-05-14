@@ -273,7 +273,7 @@ st.set_page_config(
 
 
 # ============================================================
-# Custom CSS
+# Custom CSS untuk Responsivitas
 # ============================================================
 
 st.markdown(
@@ -632,7 +632,4 @@ if uploaded_files:
     st.markdown("## 🔊 Output Suara")
     st.info(kalimat_suara)
 
-    render_speech_button(kalimat_suara)
-
-else:
-    st.info("Silakan upload gambar uang Rupiah terlebih dahulu untuk melakukan prediksi.")
+    render
