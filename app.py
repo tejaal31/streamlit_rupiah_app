@@ -611,4 +611,5 @@ if uploaded_files:
         label="⬇️ Download Hasil Prediksi CSV",
         data=csv_buffer.getvalue(),
         file_name="hasil_prediksi_uang_rupiah.csv",
-        mime="text
+        mime="text/csv"
+    )
