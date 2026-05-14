@@ -10,7 +10,6 @@ import streamlit.components.v1 as components
 import tensorflow as tf
 from PIL import Image, ImageOps
 
-
 # ============================================================
 # Konfigurasi File Model Dan Label
 # ============================================================
@@ -24,49 +23,26 @@ LABEL_PATH = "class_names_uang_rupiah.json"
 # ============================================================
 
 def label_to_nominal_int(label):
-    """
-    Mengubah label seperti:
-    '10000', '100000', '10RIBU', '100K', 'Rp 10.000'
-    menjadi integer nominal.
-    """
     text = str(label).upper().replace(" ", "")
-
-    valid_nominal = [
-        1000,
-        2000,
-        5000,
-        10000,
-        20000,
-        50000,
-        100000
-    ]
-
+    valid_nominal = [1000, 2000, 5000, 10000, 20000, 50000, 100000]
     text_clean = re.sub(r"[^0-9A-Z]", "", text)
 
-    # Cek nominal penuh, contoh: 100000, 50000, 20000
     for nominal in sorted(valid_nominal, reverse=True):
         if str(nominal) in text_clean:
             return nominal
 
-    # Cek format 1RIBU, 10RIBU, 100K, 50K, 20RB
     match = re.search(r"(\d+)(RIBU|RB|K)", text_clean)
-
     if match:
         angka = int(match.group(1))
         nominal = angka * 1000
-
         if nominal in valid_nominal:
             return nominal
 
-    # Cek angka biasa
     angka_list = re.findall(r"\d+", text_clean)
-
     for angka in angka_list:
         nilai = int(angka)
-
         if nilai in valid_nominal:
             return nilai
-
         if nilai * 1000 in valid_nominal:
             return nilai * 1000
 
@@ -75,16 +51,13 @@ def label_to_nominal_int(label):
 
 def format_rupiah(label):
     nominal = label_to_nominal_int(label)
-
     if nominal is None:
         return str(label)
-
     return "Rp " + f"{nominal:,}".replace(",", ".")
 
 
 def nominal_ke_teks(label):
     nominal = label_to_nominal_int(label)
-
     mapping = {
         1000: "seribu rupiah",
         2000: "dua ribu rupiah",
@@ -94,46 +67,26 @@ def nominal_ke_teks(label):
         50000: "lima puluh ribu rupiah",
         100000: "seratus ribu rupiah"
     }
-
     return mapping.get(nominal, str(label))
 
 
 def angka_ke_teks(angka):
     angka = int(round(float(angka)))
-
     satuan = [
-        "nol",
-        "satu",
-        "dua",
-        "tiga",
-        "empat",
-        "lima",
-        "enam",
-        "tujuh",
-        "delapan",
-        "sembilan",
-        "sepuluh",
-        "sebelas"
+        "nol", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"
     ]
-
     if angka < 12:
         return satuan[angka]
-
     if angka < 20:
         return satuan[angka - 10] + " belas"
-
     if angka < 100:
         puluh = angka // 10
         sisa = angka % 10
-
         if sisa == 0:
             return satuan[puluh] + " puluh"
-
         return satuan[puluh] + " puluh " + satuan[sisa]
-
     if angka == 100:
         return "seratus"
-
     return str(angka)
 
 
@@ -414,6 +367,7 @@ st.markdown(
 
     img {
         border-radius: 18px;
+        max-width: 100%;
     }
 
     hr {
@@ -629,7 +583,4 @@ if uploaded_files:
     # Output Suara
     # ========================================================
 
-    st.markdown("## 🔊 Output Suara")
-    st.info(kalimat_suara)
-
-    render
+    st.markdown("## 🔊 Output Su
