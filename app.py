@@ -522,12 +522,11 @@ st.markdown(
     """
     <div class="hero-card">
         <div class="hero-title">
-            Pengenalan Nominal Uang Kertas Rupiah Berbasis CNN
+            Klasifikasi Nominal Uang Kertas Rupiah Emisi 2022
         </div>
         <div class="hero-subtitle">
-            Upload gambar uang kertas Rupiah, lalu sistem akan mengenali nominalnya
-            menggunakan model Convolutional Neural Network. Hasil prediksi ditampilkan
-            lengkap dengan tingkat kepercayaan dan tiga kemungkinan tertinggi.
+            Aplikasi ini dirancang untuk mengenali 7 nominal uang kertas Rupiah emisi terbaru (2022) menggunakan arsitektur
+            <strong>Convolutional Neural Network (CNN)</strong>. Hasil prediksi ditampilkan lengkap dengan tingkat kepercayaan dan tiga kemungkinan tertinggi.
         </div>
         <div class="badge-row">
             <div class="badge">📷 Input Gambar</div>
@@ -540,6 +539,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ============================================================
+# Deskripsi Proyek
+# ============================================================
+
+st.markdown(
+    """
+    ## Deskripsi Proyek
+    Aplikasi ini dirancang untuk mengenali 7 nominal uang kertas Rupiah emisi terbaru (2022) menggunakan arsitektur **Convolutional Neural Network (CNN)**.
+
+    **Fitur Utama:**
+    * **Dataset**: Automasi *download* dari KaggleHub (Uang Emisi 2022 Baru).
+    * **Model**: Arsitektur CNN kustom (Manual) tanpa *transfer learning*.
+    * **Aksesibilitas**: Integrasi *Text-to-Speech* (gTTS) untuk membantu tuna netra mengetahui nominal uang melalui suara.
+    """,
+    unsafe_allow_html=True
+)
 
 # ============================================================
 # Upload Section
